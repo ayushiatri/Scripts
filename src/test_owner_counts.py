@@ -9,7 +9,6 @@ from playwright.sync_api import sync_playwright
 from bs4 import BeautifulSoup
 from constants import CLIENT_SECRET, CLIENT_ID, REFRESH_TOKEN
 
-# ------------------ CONFIG ------------------
 CITIES = ["Delhi", "Noida", "Gurugram", "Mumbai", "Bangalore", "Hyderabad", "Chennai", "Pune", "Kolkata", "Ahmedabad"]
 PROPERTY_TYPES = ["Residential", "PG", "Commercial"]
 SEGMENTS = ["Buy", "Rent"]
@@ -27,7 +26,6 @@ USER_AGENTS = [
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.5845.96 Safari/537.36",
 ]
 
-# ------------------ GOOGLE SHEETS ------------------
 creds = Credentials(
     None,
     refresh_token=REFRESH_TOKEN,
@@ -51,7 +49,6 @@ except gspread.exceptions.APIError:
 headers = ["Date", "Source", "City", "Segment", "Property Type", "Count of Listings"]
 worksheet.append_row(headers)
 
-# ------------------ URL BUILDERS ------------------
 def build_99acres_url(city, segment, property_type):
     city_map = {"Delhi": ("1075722", "delhi"),
                 "Mumbai": ("12", "mumbai"),
@@ -161,8 +158,6 @@ def extract_listing_count(html, source=None, property_type=None):
     return 0
 
 
-
-# ------------------ MAIN EXECUTION ------------------
 with sync_playwright() as p:
     browser = p.firefox.launch(headless=True)
     context = browser.new_context(user_agent=random.choice(USER_AGENTS))
@@ -198,5 +193,5 @@ with sync_playwright() as p:
 
     browser.close()
 
-print("\n✅ Daily owner listings counts updated successfully!")
-print(f"📄 Google Sheet URL: {sheet.url}")
+print("\n Daily owner listings counts updated successfully!")
+print(f" Google Sheet URL: {sheet.url}")
